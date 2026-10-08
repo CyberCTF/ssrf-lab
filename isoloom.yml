@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://www.isoloom.com/schema/v1.json
+# SSRF Vulnerable Lab (by incredibleindishell) as an Isoloom spec: the PHP scenarios, vendored
+# unchanged in build/web/app/, built by its own Dockerfile (pointed at the Debian archive, since
+# its PHP 7.2 base is Debian 10). `isoloom generate`, then `isoloom up docker`.
+# The network reaches the internet: the DNS spoofing and rebinding scenarios resolve real names.
+version: 1
+name: ssrf-lab
+
+networks:
+  lab: { cidr: 10.60.19.0/24, internet: true }
+
+machines:
+  web:
+    networks: { lab: 10 }
+    services: [{ port: 80, name: web, http: true, publish: 80 }]
+    resources: { cpus: 1, memory_mb: 512 }
+    docker:
+      build: build/web
+
+checks:
+  - name: the lab answers
+    http: http://web/
+    wait: 180
+  - name: the file content fetch scenario answers
+    http: http://web/file_get_content.php
+  - name: the remote host connect scenario answers
+    http: http://web/sql_connect.php
+  - name: the HTML to PDF scenario answers
+    http: http://web/pdf_ssrf_wkhtmltopdf.php
+  - name: the file content fetch reads a local file by URL
+    script: checks/ssrf-file.sh
+
+message: |
+  SSRF Vulnerable Lab answers at http://localhost:{{ machines.web.services.0.publish }}/.
+  Each scenario has an exploitation guide in upstream's README; start with the file content
+  fetch and ask it for a URL instead of a file name.

@@ -1,0 +1,9 @@
+{
+  "title": "SSRF Vulnerable Lab",
+  "description": "PHP pages vulnerable to server-side request forgery across several scenarios: file content fetch, remote service connect, file download, IP blacklist bypasses through DNS spoofing and DNS rebinding, HTML to PDF generators and XML processing.",
+  "question": "Make the server fetch internal resources and local files in every scenario, bypassing the IP blacklists.",
+  "category": "WEB",
+  "difficulty": 2,
+  "evidence_kind": "SECRET",
+  "capabilities": ["server-side-request-forgery", "dns-rebinding", "local-file-read", "internal-port-scanning", "xml-external-entity"]
+}
