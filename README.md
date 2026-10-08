@@ -19,7 +19,7 @@ resolve real domain names.
 
 ```bash
 isoloom generate
-isoloom up docker
+isoloom run docker
 ```
 
 Then open http://localhost/. The same spec runs as Docker on a local VM (`docker-vm`), on a cloud
