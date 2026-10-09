@@ -4,6 +4,5 @@
   "question": "Make the server fetch internal resources and local files in every scenario, bypassing the IP blacklists.",
   "category": "WEB",
   "difficulty": 2,
-  "evidence_kind": "SECRET",
-  "capabilities": ["server-side-request-forgery", "dns-rebinding", "local-file-read", "internal-port-scanning", "xml-external-entity"]
+  "evidence_kind": "SECRET"
 }
