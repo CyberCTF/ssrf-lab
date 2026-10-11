@@ -1,0 +1,41 @@
+{
+  "objectives": [
+    {
+      "key": "main",
+      "title": "Read the flag",
+      "prompt": "Make the file content fetch scenario load a resource it was never meant to, and read /ctf/flag from the server's own disk.",
+      "check": { "evidence": "SECRET", "format": "FLAG{%s}" },
+      "dev": "FLAG{dev-ssrf-lab}",
+      "hints": [
+        "The file content fetch page expects a file name, but the PHP function behind it accepts URLs too.",
+        "A URL is not limited to http: one scheme points at the server's local files."
+      ],
+      "steps": [
+        {
+          "key": "page",
+          "title": "Find the page",
+          "prompt": "Which PHP page of the file content fetch scenario loads the resource you name? (its file name)",
+          "check": { "answer": ["file_get_content.php", "file_get_content"] }
+        },
+        {
+          "key": "parameter",
+          "title": "Find the input",
+          "prompt": "Which POST parameter carries the resource to load?",
+          "check": { "answer": ["file"] }
+        },
+        {
+          "key": "function",
+          "title": "Find the sink",
+          "prompt": "Which PHP function fetches it, local file or URL alike?",
+          "check": { "answer": ["file_get_contents", "file_get_contents()"] }
+        },
+        {
+          "key": "scheme",
+          "title": "Point at a local file",
+          "prompt": "Which URI scheme names a file on the server's own disk?",
+          "check": { "answer": ["file", "file://", "file:"] }
+        }
+      ]
+    }
+  ]
+}
